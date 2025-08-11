@@ -6,3 +6,6 @@ print (calculadora.subtrair(1, 2))
 
 import calculadora
 print (calculadora.multiplicar(1, 2))
+
+import calculadora
+print (calculadora.dividir(1, 2))
