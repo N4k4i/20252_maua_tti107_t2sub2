@@ -1,0 +1,9 @@
+git config --local user.name "Rodrigo Bossini"
+git config --local user.email professorbossini@gmail.com
+git config --list
+git status
+git commit
+git push origin main
+git log
+git commit -a
+git add .

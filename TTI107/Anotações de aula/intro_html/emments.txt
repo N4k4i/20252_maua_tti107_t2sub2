@@ -1,0 +1,18 @@
+se utiliza "!" para gerar a estrutura incial de uma página html
+se utiliza p>2*h1 para gerar "filhos" de certos divisores
+se utiliza "#" para colocar um id automaticamente por exemplo:
+    input#sobrenome
+ID é para front
+NAME é para back
+
+radio(para selecionar um ou outro, alem de ser circular)
+checkbox(autoexplicativo)
+
+tr=Linha de uma tablea
+td=Uma coluna
+
+Elementos ARIA são assistivas, elas não afetam visualmete, são apenas por razões assistivas:
+    <div role="button">Enviar pedido</div>
+    toda role é para assessibilidade
+
+Um microdado é algo que aparece abaixo do link do seu site para mostrar certas informações
