@@ -7,18 +7,23 @@
 <body>
     <div>
         <article itemscope itemtype="https://schema.org/Movie">
-            <h1>A Star is born</h1>
-            <p>
-                A musician helps a young singer find fame as age and alcholism
+            <h1 itemprop="name">A Star is born</h1>
+            <p itemprop="abstract">
+                A musician helps a young singer find fame as age and alcholism send his own career into a download spiral.
             </p>
             <div>
-                <img src="https://upload" 
+                <img
+                itemprop="thumbnail" 
+                src="https://upload.wikimedia.org/wikipedia/en/thumb/3/39/A_Star_is_B
+                orn.png/220px-A_Star_is_Born.png"
                 alt="A Star is born">
             </div>
-            <footer>
-                Diretor: Bradley Cooper, January 5, 1975
+            <footer itemprop="director" itemscope itemtype="https://schema.org/Person">
+               <p itemprop="name">Diretor: Bradley Cooper </p>
+               <p itemprop="birthDate">January 5, 1975</p>
             </footer>
         </article>
     </div>
+
 </body>
 </html>
