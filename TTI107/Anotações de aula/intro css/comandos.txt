@@ -1,0 +1,10 @@
+<h1 style="color:green>
+pode ser feita também como:
+    h1 {   
+        color: blue;
+    }
+
+    PARA CRIAR uma classe se coloca ".' na frente
+    PARA USAR só se escreve o nome
+# é para uso de id
+. é para classe

@@ -1,0 +1,34 @@
+
+
+#titulo{
+    color:green;
+    text-align: center;
+}
+
+p#descrcao {
+    color: blue;
+}
+
+.promocao {
+    text-align: center;
+    background-color: lightgreen;
+}
+
+.nova {
+    color:white;
+}
+/* Todos os direitos reservados que tem id rodape, com classe final-pagina que seja do tipo p */
+
+p.final-pagina#rodape{
+    background-color: lightgray;
+    text-align: center;
+}
+/* h1 {
+    color:green
+}
+p {
+    color:blue; 
+}
+strong {
+    color:rgb;
+}
