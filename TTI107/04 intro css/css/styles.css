@@ -23,6 +23,27 @@ p.final-pagina#rodape{
     background-color: lightgray;
     text-align: center;
 }
+
+.curso, .novo-curso{
+    background-color: aliceblue;
+}
+
+.novo-curso{
+    color: red;
+}
+
+.curso, .novo-curso, #contato{
+    padding: 12px;
+    border: 1px solid lightgray;
+}
+/* .curso{
+    background-color: aliceblue;
+}
+
+.novocurso{
+    background-color: aliceblue;
+    color: red;
+}
 /* h1 {
     color:green
 }

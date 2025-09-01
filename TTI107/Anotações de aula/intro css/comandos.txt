@@ -8,3 +8,27 @@ pode ser feita também como:
     PARA USAR só se escreve o nome
 # é para uso de id
 . é para classe
+tipos podem ser p, h1, etc
+
+article p (todos os ps que são filhos de article)
+article, p (Todos os articles e todos os ps)
+
+LEIA SEMPRE DA DIREITA PRA ESQUERDA
+
+ #princial p.promocao
+ Todo mundo que possue a classe promoção do tipo p que é descendendte de um elemento que tem o id principal
+
+  body #princial article section p.coordenadores
+  uma classe coordenadores do tipo p que é descdendente de uma section que é descendente de um article que é descendente
+  de um elemento com id princial que é descendente de um body
+
+  article > p
+  para todo p que é FILHO DIRETO de article
+
+  EFEITO CASCATA
+  O que prevalece é o último que foi feito
+  Leia na ordem de cima para baixo 
+  Important elimina o efeito cascata, definindo a regra que sobrepoem as outras
+  id : 1, 0, 0
+  class: 0, 1, 0
+  tipo: 0, 0, 1
