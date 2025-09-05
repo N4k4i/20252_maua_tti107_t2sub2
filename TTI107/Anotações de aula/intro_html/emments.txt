@@ -16,3 +16,9 @@ Elementos ARIA são assistivas, elas não afetam visualmete, são apenas por raz
     toda role é para assessibilidade
 
 Um microdado é algo que aparece abaixo do link do seu site para mostrar certas informações
+
+font-family: 'Courier New', Courier, monospace;
+sobre fontes, se ele nao consegue achar a primeira nem a segunda, ele utiliza uma fonte qualquer que seja monospace, ou seja, uma fonte
+com espaço entre as letras e palavras
+
+Fontes com seriffa são aquelas q adicionam algo a mais a letra para ficar bonito, por exemplo o T em Times New Roman
