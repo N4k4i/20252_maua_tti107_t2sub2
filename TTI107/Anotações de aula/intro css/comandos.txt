@@ -32,3 +32,16 @@ LEIA SEMPRE DA DIREITA PRA ESQUERDA
   id : 1, 0, 0
   class: 0, 1, 0
   tipo: 0, 0, 1
+
+  ESPAÇO é quando vc tem um descendente
+  SEM ESPAÇO é quando vc está somando os atributos que ele tem
+
+  VIRGULAS SEPARAM OS SELETORES
+
+  LER DA DIREITA PARA ESQUERDA
+
+  CRTL , para abrir configurações ( WORLD WRAP ON para ficar sem scroll horizontal)
+
+  ORDEM DE BORDA DOS COMANDOS
+  20px 40px
+  Seria 20px de padding na vertical e 40px de padding na horizontal
