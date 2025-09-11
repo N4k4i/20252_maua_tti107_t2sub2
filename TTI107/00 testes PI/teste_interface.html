@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agendamento de Massagem - Calendário Interativo</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* --- Reaproveitando o estilo anterior --- */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #d0e8d0, #a4d4a4);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  .container {
+    max-width: 1100px;
+    width: 100%;
+    background: rgba(255 255 255 / 0.95);
+    padding: 40px 50px 60px;
+    border-radius: 35px;
+    box-shadow:
+      0 10px 40px rgba(0,0,0,0.1),
+      inset 0 0 100px rgba(255 255 255 / 0.35);
+    backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+  }
+  h2 {
+    color: #396b39;
+    font-weight: 700;
+    font-size: 2.8rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .main-content {
+    display: flex;
+    gap: 40px;
+    height: 460px;
+  }
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 220px;
+  }
+  .tab-btn {
+    background: #e4f0e4;
+    border-radius: 30px;
+    padding: 18px 22px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #3e6d3e;
+    cursor: pointer;
+    box-shadow:
+      6px 6px 16px rgba(163, 211, 163, 0.45),
+      -6px -6px 16px rgba(255, 255, 255, 0.85);
+    border: none;
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease,
+      color 0.3s ease,
+      transform 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+    justify-content: flex-start;
+  }
+  .tab-btn svg {
+    width: 26px;
+    height: 26px;
+    fill: #4c9250;
+    transition: fill 0.3s ease;
+  }
+  .tab-btn:hover {
+    background: #cde9cd;
+    box-shadow:
+      0 0 14px 4px #60a060,
+      inset 0 0 14px 3px #8fd88f;
+    color: #2e5a2e;
+    transform: translateX(4px);
+  }
+  .tab-btn.active {
+    background: #4c9250;
+    color: #e9f7e9;
+    box-shadow:
+      0 10px 30px rgba(70, 125, 63, 0.85);
+    transform: translateX(5px);
+  }
+  .tab-btn.active svg {
+    fill: #d0f0d0;
+  }
+  .content-area {
+    background: #f7fcf7;
+    border-radius: 30px;
+    padding: 40px 45px;
+    box-shadow:
+      6px 6px 25px rgba(144, 196, 144, 0.38),
+      -6px -6px 25px rgba(255 255 255, 0.88);
+    flex-grow: 1;
+    overflow-y: auto;
+    position: relative;
+  }
+  .tab-content {
+    display: none;
+    animation: fadeInRight 0.4s ease forwards;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  label {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #3e6d3e;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+    margin-bottom: 14px;
+  }
+  select, input[type="date"] {
+    width: 100%;
+    padding: 16px 22px;
+    border: none;
+    border-radius: 25px;
+    background: #e4f0e4;
+    color: #2a4d2a;
+    font-size: 1.15rem;
+    box-shadow:
+      6px 6px 16px rgba(163, 211, 163, 0.45),
+      -6px -6px 16px rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    transition: box-shadow 0.35s ease, background 0.35s ease;
+    margin-bottom: 28px;
+  }
+  select:focus, input[type="date"]:focus {
+    outline: none;
+    background: #cde9cd;
+    box-shadow:
+      0 0 14px 5px #60a060,
+      inset 0 0 14px 4px #8fd88f;
+  }
+  button[type="submit"] {
+    margin-top: auto;
+    padding: 20px 0;
+    border: none;
+    border-radius: 35px;
+    background: linear-gradient(135deg, #4c9250, #36783a);
+    box-shadow: 0 12px 28px rgba(70, 125, 63, 0.7);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #e9f7e9;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: background 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    width: 100%;
+  }
+  button[type="submit"]:hover {
+    background: linear-gradient(135deg, #3a6f39, #265223);
+    box-shadow: 0 18px 35px rgba(38, 82, 35, 0.9);
+    transform: translateY(-4px);
+  }
+  button[type="submit"]:active {
+    transform: translateY(-2px);
+  }
+  .confirmation {
+    margin-top: 32px;
+    background: #a9d18e;
+    border-radius: 22px;
+    padding: 24px 30px;
+    text-align: center;
+    font-weight: 600;
+    color: #264d12;
+    box-shadow: 0 6px 20px rgba(95, 144, 50, 0.5);
+    opacity: 0;
+    transform: translateX(15px);
+    animation-fill-mode: forwards;
+  }
+  .confirmation.show {
+    animation: fadeInRight 0.5s ease forwards;
+  }
+  @keyframes fadeInRight {
+    from {opacity: 0; transform: translateX(15px);}
+    to {opacity: 1; transform: translateX(0);}
+  }
+  /* Scrollbar estilizada para conteúdo */
+  .content-area::-webkit-scrollbar {
+    width: 10px;
+  }
+  .content-area::-webkit-scrollbar-track {
+    background: #d6e8d6;
+    border-radius: 25px;
+  }
+  .content-area::-webkit-scrollbar-thumb {
+    background: #4c9250;
+    border-radius: 25px;
+  }
+  /* Responsividade */
+  @media(max-width: 900px) {
+    .container {
+      padding: 30px 30px 40px;
+      max-width: 95vw;
+    }
+    .main-content {
+      flex-direction: column;
+      height: auto;
+    }
+    .tabs {
+      flex-direction: row;
+      justify-content: center;
+      min-width: auto;
+      gap: 16px;
+      margin-bottom: 30px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #a4d4a4;
+    }
+    .tab-btn {
+      min-width: 140px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      gap: 10px;
+      justify-content: center;
+    }
+    .content-area {
+      max-height: none;
+      padding: 30px 25px;
+    }
+  }
+
+  /* --- Calendário customizado para aba Dia --- */
+
+  .calendar {
+    max-width: 360px;
+    background: #eaf7ea;
+    border-radius: 22px;
+    box-shadow: inset 4px 4px 12px #b3d4b3, inset -4px -4px 12px #ffffff;
+    padding: 18px 24px 30px;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+  }
+  .calendar header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .calendar header button {
+    background: #a5d7a5;
+    border: none;
+    border-radius: 18px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: #2e5a2e;
+    font-weight: 700;
+    font-size: 1.3rem;
+    transition: background 0.25s ease;
+  }
+  .calendar header button:hover {
+    background: #4c9250;
+    color: #e9f7e9;
+  }
+  .calendar header h3 {
+    color: #396b39;
+    font-weight: 700;
+    font-size: 1.8rem;
+    user-select: none;
+  }
+  .calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-weight: 600;
+    color: #4a744a;
+  }
+  .calendar th {
+    padding: 8px 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .calendar td {
+    padding: 10px 6px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    user-select: none;
+  }
+  .calendar td:hover:not(.disabled) {
+    background-color: #96c696;
+    color: #e9f7e9;
+  }
+  .calendar td.disabled {
+    color: #b3b3b3;
+    cursor: default;
+  }
+  .calendar td.selected {
+    background-color: #4c9250;
+    color: white;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="Agendamento de Massagem">
+  <h2>Agende sua massagem</h2>
+  <div class="main-content">
+
+    <nav class="tabs" role="tablist" aria-label="Opções de agendamento">
+      <button class="tab-btn active" data-tab="tipoMassagem" role="tab" aria-selected="true" aria-controls="tipoMassagem" id="tab-tipoMassagem" title="Tipo de massagem">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-4.97 0-9 4.03-9 9 0 7 9 11 9 11s9-4 9-11c0-4.97-4.03-9-9-9zM7 11.5C7 10.12 8.12 9 9.5 9S12 10.12 12 11.5 10.88 14 9.5 14 7 12.88 7 11.5z"/></svg>
+        Tipo
+      </button>
+      <button class="tab-btn" data-tab="profissional" role="tab" aria-selected="false" aria-controls="profissional" id="tab-profissional" title="Profissionais disponíveis">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-7 7c0-2.21 3-3.5 7-3.5s7 1.29 7 3.5v1H5v-1z"/></svg>
+        Profissional
+      </button>
+      <button class="tab-btn" data-tab="data" role="tab" aria-selected="false" aria-controls="data" id="tab-data" title="Dias disponíveis para agendamento">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM5 20V9h14v11H5z"/></svg>
+        Dia
+      </button>
+      <button class="tab-btn" data-tab="horario" role="tab" aria-selected="false" aria-controls="horario" id="tab-horario" title="Horários disponíveis">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#4c9250" stroke-width="2" fill="none"/><path d="M12 6v6l4 2" stroke="#4c9250" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Horário
+      </button>
+    </nav>
+
+    <form class="content-area" id="formAgendamento" aria-live="polite" novalidate>
+      <section id="tipoMassagem" class="tab-content active" role="tabpanel" aria-labelledby="tab-tipoMassagem">
+        <label for="tipoMassagemSelect">Selecione o tipo de massagem</label>
+        <select id="tipoMassagemSelect" name="tipoMassagem" required aria-required="true" aria-describedby="tipoDesc">
+          <option value="" disabled selected>Selecione...</option>
+          <option value="relaxante">Relaxante</option>
+          <option value="terapeutica">Terapêutica</option>
+          <option value="shiatsu">Shiatsu</option>
+          <option value="ponto-gatilho">Ponto-gatilho</option>
+        </select>
+        <p id="tipoDesc" style="font-size:0.9rem; color:#5a7f5a; margin-top: -10px; margin-bottom: 15px;">
+          Escolha a massagem que melhor atende sua necessidade.
+        </p>
+      </section>
+
+      <section id="profissional" class="tab-content" role="tabpanel" aria-labelledby="tab-profissional">
+        <label for="profissionalSelect">Selecione o profissional</label>
+        <select id="profissionalSelect" name="profissional" required aria-required="true" aria-describedby="profDesc">
+          <option value="" disabled selected>Selecione...</option>
+          <option value="ana">Ana</option>
+          <option value="bruno">Bruno</option>
+          <option value="carla">Carla</option>
+        </select>
+        <p id="profDesc" style="font-size:0.9rem; color:#5a7f5a; margin-top: -10px; margin-bottom: 15px;">
+          Profissionais certificados e experientes.
+        </p>
+      </section>
+
+      <section id="data" class="tab-content" role="tabpanel" aria-labelledby="tab-data">
+        <label for="calendarInput">Escolha o dia</label>
+        <input type="hidden" id="calendarInput" name="data" required aria-required="true" />
+        <div class="calendar" aria-label="Calendário para seleção de data">
+          <header>
+            <button type="button" id="prevMonth" aria-label="Mês anterior">&lt;</button>
+            <h3 id="monthYear"></h3>
+            <button type="button" id="nextMonth" aria-label="Próximo mês">&gt;</button>
+          </header>
+          <table role="grid" aria-readonly="true">
+            <thead>
+              <tr>
+                <th scope="col">Dom</th>
+                <th scope="col">Seg</th>
+                <th scope="col">Ter</th>
+                <th scope="col">Qua</th>
+                <th scope="col">Qui</th>
+                <th scope="col">Sex</th>
+                <th scope="col">Sáb</th>
+              </tr>
+            </thead>
+            <tbody id="calendarBody">
+              <!-- Dias serão gerados pelo JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="horario" class="tab-content" role="tabpanel" aria-labelledby="tab-horario">
+        <label for="horarioSelect">Selecione o horário</label>
+        <select id="horarioSelect" name="horario" required aria-required="true" aria-describedby="horarioDesc">
+          <option value="" disabled selected>Selecione...</option>
+          <option value="08:00">08:00</option>
+          <option value="09:00">09:00</option>
+          <option value="10:00">10:00</option>
+          <option value="11:00">11:00</option>
+          <option value="14:00">14:00</option>
+          <option value="15:00">15:00</option>
+          <option value="16:00">16:00</option>
+          <option value="17:00">17:00</option>
+        </select>
+        <p id="horarioDesc" style="font-size:0.9rem; color:#5a7f5a; margin-top: -10px; margin-bottom: 15px;">
+          Horários disponíveis para agendamento.
+        </p>
+      </section>
+
+      <button type="submit" aria-label="Enviar agendamento">Agendar</button>
+      <div id="confirmation" class="confirmation" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Controle abas
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      contents.forEach(c => {
+        c.classList.remove('active');
+      });
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Calendário funcional - somente para a aba 'data'
+
+  const calendarInput = document.getElementById('calendarInput');
+  const monthYear = document.getElementById('monthYear');
+  const calendarBody = document.getElementById('calendarBody');
+  const prevMonthBtn = document.getElementById('prevMonth');
+  const nextMonthBtn = document.getElementById('nextMonth');
+
+  let today = new Date();
+  let currentYear = today.getFullYear();
+  let currentMonth = today.getMonth();
+
+  function renderCalendar(year, month) {
+    calendarBody.innerHTML = '';
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = firstDay.getDay(); // Domingo = 0
+    const daysInMonth = lastDay.getDate();
+
+    monthYear.textContent = firstDay.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+
+    let dateCount = 1;
+    for (let week = 0; week < 6; week++) {
+      const tr = document.createElement('tr');
+
+      for (let day = 0; day < 7; day++) {
+        const td = document.createElement('td');
+
+        // Antes do 1º dia do mês
+        if (week === 0 && day < startDay) {
+          td.textContent = '';
+          td.classList.add('disabled');
+        } else if (dateCount > daysInMonth) {
+          // Após o último dia do mês
+          td.textContent = '';
+          td.classList.add('disabled');
+        } else {
+          td.textContent = dateCount;
+
+          // Verificar se é data passada (não permitida)
+          const cellDate = new Date(year, month, dateCount);
+          if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+            td.classList.add('disabled');
+          } else {
+            td.tabIndex = 0;
+            td.setAttribute('role', 'gridcell');
+            td.setAttribute('aria-label', cellDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
+
+            // Seleção ao clicar
+            td.addEventListener('click', () => {
+              selectDate(cellDate, td);
+            });
+            // Permitir seleção via teclado
+            td.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectDate(cellDate, td);
+              }
+            });
+          }
+          dateCount++;
+        }
+        tr.appendChild(td);
+      }
+      calendarBody.appendChild(tr);
+    }
+  }
+
+  function selectDate(date, cell) {
+    // Desmarca anterior
+    const prevSelected = calendarBody.querySelector('td.selected');
+    if (prevSelected) prevSelected.classList.remove('selected');
+
+    cell.classList.add('selected');
+    calendarInput.value = date.toISOString().slice(0,10); // yyyy-mm-dd
+  }
+
+  prevMonthBtn.addEventListener('click', () => {
+    if (currentMonth === 0) {
+      currentMonth = 11;
+      currentYear--;
+    } else {
+      currentMonth--;
+    }
+    renderCalendar(currentYear, currentMonth);
+    calendarInput.value = ''; // limpa seleção
+  });
+
+  nextMonthBtn.addEventListener('click', () => {
+    if (currentMonth === 11) {
+      currentMonth = 0;
+      currentYear++;
+    } else {
+      currentMonth++;
+    }
+    renderCalendar(currentYear, currentMonth);
+    calendarInput.value = ''; // limpa seleção
+  });
+
+  renderCalendar(currentYear, currentMonth);
+
+  // Validação e confirmação simples do formulário
+  const form = document.getElementById('formAgendamento');
+  const confirmation = document.getElementById('confirmation');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    confirmation.textContent = `Agendamento confirmado para:
+Tipo: ${form.tipoMassagem.value},
+Profissional: ${form.profissional.value},
+Dia: ${form.data.value},
+Horário: ${form.horario.value}. Obrigado!`;
+    confirmation.classList.add('show');
+
+    // Opcional: limpar formulário após agendar
+    // form.reset();
+  });
+</script>
+</body>
+</html>
