@@ -1,0 +1,2 @@
+É preciso retirar o arquivo js para fora da pasta para que possa ser testado no cmd
+Escrevendo node NomeDoArquivo.js
