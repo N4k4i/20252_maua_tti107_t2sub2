@@ -1,39 +1,51 @@
-//1- Função Simples
-function hello(){
-    console.log('Hello')
-}
-hello()
-function hello(nome){
-    console.log("hello," + nome)
-}
-hello("Pokemon")
+// essa é uma função SEM parâmetros
 
-function soma(a, b){
-    return a + b
+function hello () {
+    console.log ('Oi')
 }
-const s = soma(1, 2)
-console.log(s)
-console.log(soma(3,4))
+hello () 
 
-// 2 -função anonimas com atribução para uma variavel
-const quadrado  =  function(n){
+// essa é uma função COM parâmetros
+
+function hello (nome) {
+    console.log ('Hello, ' + nome)
+}
+hello ('Pedro')
+
+
+
+function soma (a, b){
+    return a + b;
+}
+const res = soma (2, 3)
+console.log(res)
+console.log ("Surpresa: "+ soma ("ban", "ana"))
+console.log ("Nem tudo funciona: " + soma (true, false))
+
+// função anônima
+
+const dobro = function (n) {
+    return n*2
+}
+const reso = dobro(4)
+console.log ("dobro de 4: " + reso)
+//  ou entao:
+console.log ("dobro de 4: " + dobro(4))
+// console.log ("dobro de A: " + dobro(a))           **NaN**
+
+const quadrado = function (n=10) {
     return n * n
 }
 
-//PRINT(JAVASCRIPT)
-console.log(quadrado(5))
-console.log(quadrado(2))
+console.log ("O quadrado de 10: " + quadrado ())
+console.log ("O quadrado de 15: " + quadrado (15))
 
-const dobro = function(n=10){
-    return n * 2
-}
-// ELE ESTA SEM O PARAMETRO => 10X2 =20
-console.log("dobro sem parâmetro:" + dobro())
-//ELE ESTA COM PARAMETRO(4) +> 4X2 = 8
-console.log("dobro com parâmetro: " + dobro(4))
+// triplo é uma FUNÇÃO
+const triplo = n => n*3 
+console.log ("Triplo de 4: " + triplo (4))
+const metade = n => {n/2}
+console.log ("Metade de 9: " + metade(9))
 
-//sem o return e o function e sem as chaves {}
-const ePar = n => 
-    n % 2 === 0 
-
-console.log(ePar(20))
+const ePar = n => n % 2 === 0
+console.log ("10 é par? " + ePar(10))
+console.log ("11 é par? " + ePar(11))
