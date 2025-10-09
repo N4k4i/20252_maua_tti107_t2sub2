@@ -9,7 +9,7 @@ if(idade >= 18){
 else{
   console.log('Infelizmente ainda não.')
 }
-console.log(`Até mais, ${nome}.`)
+console.log(`Até mais, ${nome}.`) 
 // console.log(idade)
 // idade = idade + 1
 // console.log(idade)
