@@ -1,0 +1,10 @@
+// json = lista de pares chave valor
+
+// endpoint para atender um get oi: http://localhost:3000/oi
+// URL: protocolo//maquina(localhost):porta/endpoint
+// req = requisições, res = response
+
+//função de conexão com o banco 
+
+ * porta padrão: 3000 -> canal de comunicação *  
+ // app.listen (porta, ação)  
